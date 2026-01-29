@@ -27,12 +27,11 @@ jobs:
       - name: Run Security Scan (Semgrep)
         run: semgrep scan --config=auto --json > semgrep.json || true
 
-      - name: Install Trivy
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y wget
-          wget https://github.com/aquasecurity/trivy/releases/latest/download/trivy_0.49.1_Linux-64bit.deb
-          sudo dpkg -i trivy_0.49.1_Linux-64bit.deb
-
-      - name: Run Dependency Scan
-        run: trivy fs . --format json > trivy.json || true
+      - name: Run Trivy FS Scan
+        uses: aquasecurity/trivy-action@0.19.0
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'json'
+          output: 'trivy.json'
+          severity: 'CRITICAL,HIGH,MEDIUM,LOW'

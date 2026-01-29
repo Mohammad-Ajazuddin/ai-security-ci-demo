@@ -49,14 +49,12 @@ jobs:
           severity: 'CRITICAL,HIGH,MEDIUM,LOW'
 
       # --------------------
-      # Secret Detection (Gitleaks)
+      # Secret Detection (Gitleaks) - LOCAL FILE
       # --------------------
       - name: Run Gitleaks Secret Scan
-        uses: gitleaks/gitleaks-action@v2
-        continue-on-error: true
-        with:
-          report-format: json
-          report-path: gitleaks.json
+        run: |
+          curl -s https://raw.githubusercontent.com/gitleaks/gitleaks/master/install.sh | bash
+          ./gitleaks detect --source . --report-format sarif --report-path gitleaks.sarif --redact || true
 
       # --------------------
       # Upload Raw Security Reports
@@ -68,7 +66,7 @@ jobs:
           path: |
             semgrep.json
             trivy.json
-            gitleaks.json
+            gitleaks.sarif
 
       # --------------------
       # Combine Reports

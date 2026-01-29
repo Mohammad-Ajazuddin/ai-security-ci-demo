@@ -99,3 +99,15 @@ jobs:
         with:
           name: ai-summary
           path: ai-summary.txt
+
+      - name: Send Email Summary
+        run: python scripts/send_email.py
+        env:
+          EMAIL_USER: ${{ secrets.EMAIL_USER }}
+          EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
+
+      - name: Create ClickUp Task
+        run: python scripts/create_clickup_task.py
+        env:
+          CLICKUP_TOKEN: ${{ secrets.CLICKUP_TOKEN }}
+          CLICKUP_LIST_ID: ${{ secrets.CLICKUP_LIST_ID }}

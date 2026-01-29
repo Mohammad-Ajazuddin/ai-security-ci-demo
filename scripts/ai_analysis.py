@@ -11,10 +11,11 @@ You are a senior application security engineer.
 
 Analyze the following security scan report.
 
-Tasks:
-1. Categorize issues into: CRITICAL, HIGH, MEDIUM, LOW
-2. Provide an executive summary in simple language
-3. Suggest high-level remediation steps
+MANDATORY:
+1. List **ALL detected secrets individually** (cloud keys, API keys, DB passwords, tokens, etc).
+2. Categorize issues into: CRITICAL, HIGH, MEDIUM, LOW.
+3. Provide an executive summary.
+4. Suggest remediation steps.
 
 Report:
 {data}

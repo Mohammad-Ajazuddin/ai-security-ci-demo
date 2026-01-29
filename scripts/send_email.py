@@ -6,6 +6,11 @@ sender = os.getenv("EMAIL_USER")
 password = os.getenv("EMAIL_PASS")
 receiver = os.getenv("RECEIVER_EMAIL")
 
+if not sender or not password or not receiver:
+    raise ValueError(
+        f"Missing env vars → sender={sender}, password={'set' if password else None}, receiver={receiver}"
+    )
+
 with open("ai-summary.txt") as f:
     body = f.read()
 

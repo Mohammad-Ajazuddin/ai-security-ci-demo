@@ -52,3 +52,14 @@ jobs:
         with:
           name: combined-report
           path: combined.json
+
+      - name: AI Security Analysis
+        run: python scripts/ai_analysis.py
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+      - name: Upload AI Summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-summary
+          path: ai-summary.txt

@@ -1,7 +1,7 @@
-import openai
+from openai import OpenAI
 import os
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 with open("combined.json") as f:
     data = f.read()
@@ -20,10 +20,10 @@ Report:
 {data}
 """
 
-response = openai.ChatCompletion.create(
+response = client.chat.completions.create(
     model="gpt-4o-mini",
     messages=[{"role": "user", "content": prompt}],
-    temperature=0.2
+    temperature=0.2,
 )
 
 analysis = response.choices[0].message.content

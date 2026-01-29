@@ -53,6 +53,9 @@ jobs:
           name: combined-report
           path: combined.json
 
+      - name: Install Python Dependencies
+        run: pip install openai
+
       - name: AI Security Analysis
         run: python scripts/ai_analysis.py
         env:

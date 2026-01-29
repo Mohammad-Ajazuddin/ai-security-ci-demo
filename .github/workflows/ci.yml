@@ -52,9 +52,12 @@ jobs:
       # Secret Detection (Gitleaks) - LOCAL FILE
       # --------------------
       - name: Run Gitleaks Secret Scan
+        continue-on-error: true
         run: |
-          curl -s https://raw.githubusercontent.com/gitleaks/gitleaks/master/install.sh | bash
-          ./gitleaks detect --source . --report-format sarif --report-path gitleaks.sarif --redact || true
+          wget https://github.com/gitleaks/gitleaks/releases/download/v8.24.3/gitleaks_8.24.3_linux_x64.tar.gz
+          tar -xzf gitleaks_8.24.3_linux_x64.tar.gz
+          chmod +x gitleaks
+          ./gitleaks detect --source . --report-format json --report-path gitleaks.json --redact || true
 
       # --------------------
       # Upload Raw Security Reports

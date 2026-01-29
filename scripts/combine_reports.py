@@ -1,6 +1,6 @@
 import json
 
-files = ["semgrep.json", "trivy.json", "gitleaks.sarif"]
+files = ["semgrep.json", "trivy.json", "gitleaks.json"]
 combined = {}
 
 for f in files:

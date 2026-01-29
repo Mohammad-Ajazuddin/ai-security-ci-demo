@@ -10,9 +10,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # --------------------
+      # Checkout Source Code
+      # --------------------
       - name: Download Code
         uses: actions/checkout@v4
 
+      # --------------------
+      # Setup Node Environment
+      # --------------------
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -21,12 +27,18 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
+      # --------------------
+      # Static Code Security Scan (Semgrep)
+      # --------------------
       - name: Install Semgrep
         run: pip install semgrep
 
       - name: Run Security Scan (Semgrep)
         run: semgrep scan --config=auto --json > semgrep.json || true
 
+      # --------------------
+      # Dependency + File System Scan (Trivy)
+      # --------------------
       - name: Run Trivy FS Scan
         uses: aquasecurity/trivy-action@0.19.0
         with:
@@ -36,6 +48,18 @@ jobs:
           output: 'trivy.json'
           severity: 'CRITICAL,HIGH,MEDIUM,LOW'
 
+      # --------------------
+      # Secret Detection (Gitleaks)
+      # --------------------
+      - name: Run Gitleaks Secret Scan
+        uses: gitleaks/gitleaks-action@v2
+        with:
+          report-format: json
+          report-path: gitleaks.json
+
+      # --------------------
+      # Upload Raw Security Reports
+      # --------------------
       - name: Upload Reports
         uses: actions/upload-artifact@v4
         with:
@@ -43,7 +67,11 @@ jobs:
           path: |
             semgrep.json
             trivy.json
+            gitleaks.json
 
+      # --------------------
+      # Combine Reports
+      # --------------------
       - name: Combine Reports
         run: python scripts/combine_reports.py
 
@@ -53,6 +81,9 @@ jobs:
           name: combined-report
           path: combined.json
 
+      # --------------------
+      # AI Analysis
+      # --------------------
       - name: Install Python Dependencies
         run: pip install openai
 

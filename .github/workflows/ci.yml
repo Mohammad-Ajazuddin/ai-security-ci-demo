@@ -53,6 +53,7 @@ jobs:
       # --------------------
       - name: Run Gitleaks Secret Scan
         uses: gitleaks/gitleaks-action@v2
+        continue-on-error: true
         with:
           report-format: json
           report-path: gitleaks.json

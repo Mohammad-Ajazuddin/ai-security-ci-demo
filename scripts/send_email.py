@@ -20,7 +20,7 @@ with open("ai-summary.txt") as f:
     body = f.read()
 
 msg = MIMEText(body)
-msg["Subject"] = "🚨 AI Security Scan Summary - CI Pipeline | {timestamp}"
+msg["Subject"] = f"🚨 AI Security Scan Summary - CI Pipeline | {timestamp}"
 msg["From"] = sender
 msg["To"] = receiver
 

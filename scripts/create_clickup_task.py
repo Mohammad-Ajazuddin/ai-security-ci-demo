@@ -1,6 +1,7 @@
+
 import requests
 import os
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 
 CLICKUP_TOKEN = os.getenv("CLICKUP_TOKEN")
 LIST_ID = os.getenv("CLICKUP_LIST_ID")
@@ -12,7 +13,9 @@ with open("ai-summary.txt") as f:
     content = f.read()
 
 # Generate timestamp
-timestamp = datetime.now().strftime("%Y-%m-%d %H:%M")
+# IST = UTC + 5:30
+IST = timezone(timedelta(hours=5, minutes=30))
+timestamp = datetime.now(IST).strftime("%Y-%m-%d %H:%M IST")
 
 task_name = f"🚨 Security Issues - {timestamp}"
 
